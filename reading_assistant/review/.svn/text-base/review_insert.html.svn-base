@@ -1,0 +1,72 @@
+{% include "common/header.html" %}
+  <body>
+    
+    {% include "common/top.html" %}
+    
+    <div class="container jetstrap-highlighted">
+    
+      <!-- Example row of columns -->
+      <h2>My Book Review Insert</h2><p>독후감 등록 페이지입니다.</p>
+    
+	  <form name="reviewForm" action="/review/review_insert/" method="post">
+	  	<input type="hidden" name="user" value="{{ user_email }}">
+	  	<input type="hidden" name="book" value="{{ book.isbn }}">
+	  	<input type="hidden" name="isbn" value="{{ book.isbn }}">
+		도서명 : {{ book.book_name }}
+		<div class="control-group">
+			<label class="control-label">
+				독후감 제목
+			</label>
+			<div class="controls">
+			</div>
+		</div>
+		<input name="review_name" type="text"><br />
+		<div class="control-group">
+			<label class="control-label">
+				내용
+			</label>
+			<div class="controls">
+			</div>
+		</div>
+		<textarea name="review_contents" style="width:100%"></textarea><br />
+		<div align="right">
+			<button type="submit" class="btn">
+				등록
+			</button>
+		</div>
+	  </form>
+	  
+	  <div class="row-fluid"></div><hr>
+    
+      <div class="container"></div><footer><p>© skytear7@naver.com 2013</p>
+        
+      </footer>
+    
+    </div> <!-- /container -->
+    
+
+    <style>
+      
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
+    </script>
+    <script src="/static/js/bootstrap.js">
+    </script>
+    <script>
+		function insertReview() {
+			frm = document.reviewForm;
+			
+			/* if(frm.bestword.trim() == "") {
+				
+			} */
+			
+			frm.submit();
+		}
+    </script>
+  </body>
+</html>

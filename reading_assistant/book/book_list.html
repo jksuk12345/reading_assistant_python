@@ -1,0 +1,68 @@
+{% include "common/header.html" %}
+  <body>
+    
+    {% include "common/top.html" %}
+    
+    <div class="container jetstrap-highlighted">
+    
+      <!-- Example row of columns -->
+      <h2>My Book List</h2><p>내 도서 목록입니다.</p>
+    
+	  <div align="right">
+		<button onclick="location.href='/book/book_insert_form/';" type="button" class="btn" >등록</button>
+	  </div>
+	  <br />
+	
+	  <table class="table">
+	  <tbody>
+		<tr><th>이미지</th><th>책 제목</th><th>등록일</th><th>삭제</th></tr>
+		{% for book in book_list %}
+		<tr><td><a href="javascript:goBookDetail('{{ book.isbn }}');"><img src="{{ book.image_url }}"></a></td><td><a href="javascript:goBookDetail('{{ book.isbn }}');">{{ book.book_name }}</a><td>{{ book.reg_dt|date:'Y-m-d H:i:s' }}</td><td><button onclick="deleteBook('{{ book.isbn }}');" type="button" class="btn">삭제</button></td></tr>
+		{% endfor %}
+	  </tbody>
+	  </table>
+	  
+	  {% include "common/page_navigation.html" %}
+	  
+	  <div class="row-fluid"></div><hr>
+    
+      <div class="container"></div><footer><p>© skytear7@naver.com 2013</p>
+        
+      </footer>
+    
+    </div> <!-- /container -->
+    
+
+    <style>
+      
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
+    </script>
+    <script src="/static/js/bootstrap.js">
+    </script>
+    <script>
+		function goBookDetail(isbn) {
+			document.bookPkForm.action = "/book/book_detail/";
+			document.bookPkForm.isbn.value = isbn;
+			document.bookPkForm.submit();
+		}
+		
+		function deleteBook(isbn) {
+			if(!confirm("삭제하시겠습니까?")) {
+	    		return ;
+    		}
+			document.bookPkForm.action = "/book/book_delete/";
+			document.bookPkForm.isbn.value = isbn;
+			document.bookPkForm.submit();
+		}
+    </script>
+    <form name="bookPkForm" action="" method="post">
+		<input type="hidden" name="isbn" />
+	</form>
+  </body>
+</html>

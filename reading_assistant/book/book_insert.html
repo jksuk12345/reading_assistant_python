@@ -1,0 +1,62 @@
+{% include "common/header.html" %}
+  <body>
+    
+    {% include "common/top.html" %}
+    
+    <div class="container jetstrap-highlighted">
+    
+      <!-- Example row of columns -->
+      <h2>My Book Insert</h2><p>내 도서 등록 페이지입니다.</p>
+    
+	  <form action="book/book_search_result" method="post" name="bookSearchForm">
+		<span class="label"></span>
+		<div class="control-group">
+			<div class="controls">
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">
+				Book Name
+			</label>
+			<div class="controls">
+			</div>
+		</div>
+		<input type="text" name="book_name"><br />
+		<button onclick="searchBook();" type="button" class="btn">
+			Search
+		</button>
+	  </form>
+	  
+	  <div id="book_search_result" align="center"></div>
+	  
+	  <div class="row-fluid"></div><hr>
+    
+      <div class="container"></div><footer><p>© skytear7@naver.com 2013</p>
+        
+      </footer>
+    
+    </div> <!-- /container -->
+    
+
+    <style>
+      
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
+    </script>
+    <script src="/static/js/bootstrap.js">
+    </script>
+    <script>
+		function searchBook() {
+			searchBookName = document.bookSearchForm.book_name.value;
+			
+			// 공백 처리 - encodeURIComponent
+			$("#book_search_result").load("/book/book_search_result?book_name="+encodeURIComponent(searchBookName));
+		}
+    </script>
+  </body>
+</html>

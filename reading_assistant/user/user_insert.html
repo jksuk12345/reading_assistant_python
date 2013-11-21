@@ -1,0 +1,76 @@
+{% include "common/header.html" %}
+  <body>
+    
+    {% include "common/top.html" %}
+    
+    <div class="container jetstrap-highlighted">
+    
+      <!-- Example row of columns -->
+      <h2>User Insert</h2><p>회원 등록 페이지입니다.</p>
+    
+	  <form action="/user/user_insert/" method="post">
+		<span class="label"></span>
+		<div class="control-group">
+			<div class="controls">
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">
+				이메일
+			</label>
+			<div class="controls">
+			</div>
+		</div>
+		<input name="email" type="text"><br />
+		<button onclick="alert('구현 예정');" type="button" class="btn">
+			중복체크
+		</button>
+		<div class="control-group">
+			<label class="control-label">
+				이름
+			</label>
+			<div class="controls">
+			</div>
+		</div>
+		<input name="name" type="text"><br />
+		<div class="control-group">
+			<label class="control-label">
+				패스워드
+			</label>
+			<div class="controls">
+			</div>
+		</div>
+		<input name="password" type="password"><br />
+		<div align="right">
+			<button type="submit" class="btn">
+				등록
+			</button>
+		</div>
+	  </form>
+	  
+	  <div class="row-fluid"></div><hr>
+    
+      <div class="container"></div><footer><p>© skytear7@naver.com 2013</p>
+        
+      </footer>
+    
+    </div> <!-- /container -->
+    
+
+    <style>
+      
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
+    </script>
+    <script src="/static/js/bootstrap.js">
+    </script>
+    <script>
+
+    </script>
+  </body>
+</html>

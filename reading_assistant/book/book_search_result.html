@@ -1,0 +1,65 @@
+    <div class="container jetstrap-highlighted">
+    
+      <!-- Example row of columns -->
+      <h2>Book Search Result</h2><p>검색 결과입니다.</p>
+	  
+	   총 건수 : {{ rss.channel.total.text }} <br />
+	   페이지당 보이는 건수 : {{ rss.channel.display.text }} <br />
+	  
+	  <br />
+    
+      {% autoescape off %}
+	  <table class="table">
+	  <tbody>
+		<tr><th>이미지</th><th>도서명</th><th>저자</th><th>정가</th><th>최저가</th><th>출판사</th><th>출간일</th></tr>
+		{% for item in rss.channel.item %}
+		<tr>
+			<td><img src="{{ item.image.text }}"></td>
+			<td>
+				<a href="">{{ item.title.text }}</a>
+				<br />
+				<button onclick="insertBook('{{item.isbn.text}}', '{{ item.link.text }}');" type="button" class="btn">
+					도서 등록
+				</button>
+				<button onclick="var openNewWindow = window.open('about:blank'); openNewWindow.location.href = '{{ item.link.text }}';" type="button" class="btn">
+					네이버로 이동
+				</button>
+			</td>
+			<td>{{ item.author.text }}</td>
+			<td>{{ item.price.text }}</td>
+			<td>{{ item.discount.text }}</td>
+			<td>{{ item.publisher.text }}</td>
+			<td>{{ item.pubdate.text }}</td>
+		</tr>
+		{% endfor %}
+	  </tbody>
+	  </table>
+	  {% endautoescape %}
+	  
+	  {% include "common/page_navigation.html" %}
+	  
+      </footer>
+    
+    </div> <!-- /container -->
+    
+    <script>
+    	function insertBook(isbn, link) {
+    		document.bookInsertForm.query.value = document.bookSearchForm.book_name.value;
+    		document.bookInsertForm.isbn.value = isbn;
+    		document.bookInsertForm.link.value = link;
+    		
+    		document.bookInsertForm.submit();
+    	}
+    
+    	function goPage(curPage) {
+			searchBookName = document.bookSearchForm.book_name.value;
+			
+			$("#book_search_result").load("/book/book_search_result?book_name="+searchBookName+"&curPage="+curPage);
+    	}
+    </script>
+    
+	<form name="bookInsertForm" action="/book/book_insert/" method="post">
+		<input type="hidden" name="query" />
+		<input type="hidden" name="isbn" />
+		<input type="hidden" name="link" />
+	</form>

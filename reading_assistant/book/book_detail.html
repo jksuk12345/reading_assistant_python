@@ -1,0 +1,188 @@
+{% include "common/header.html" %}
+  <body>
+    
+    {% include "common/top.html" %}
+    
+    <div class="container jetstrap-highlighted">
+    
+      <!-- Example row of columns -->
+      <h2>My Book Detail</h2><p>내 도서 상세입니다.</p>
+    
+	  <div>
+		<img src="{{ book.image_url }}">
+		<h4>{{ book.book_name }}</h4>
+		<button onclick="var openNewWindow = window.open('about:blank'); openNewWindow.location.href = '{{ book.link_naver }}';" type="button" class="btn">네이버로 이동</button>
+		<h4>독서 진행율 : {{ current_ratio|floatformat }} %<h4>
+		<h4>평점 : {{ book.user_score }} ★★★★★(개발중)</h4>
+	  </div>
+	  
+	  <hr>
+	  <form name="currentPageUpdateForm" method="post">
+	  <div>
+		<p>출판사 : {{ book.publisher }} </p>
+		<p>출판일 : {{ book.pub_date }} </p>
+		<p>저자 : {{ book.author }} </p>
+		<p>페이지 수 : <input style="width:50px;" type="text" name="current_page" value="{{ book.current_page }}" placeholder="Page">/{{ book.total_page }}&nbsp;&nbsp;<button onclick="updateCurrentPage();" type="button" class="btn" >진행율 수정</button></p>
+	  </div>
+	  </form>
+	  
+	  <hr>
+	  <div>
+		<p>기간 : <input style="width:100px;" type="text" placeholder="Start Date"> ~ <input style="width:100px;" type="text" placeholder="End Date"></p>
+		<p>일별 독서 목표 : <input style="width:50px;" type="text" placeholder="Page"> 페이지</p>
+		<p>일별 독서 계획 시간(시작 시간) : <input style="width:50px;" type="text" placeholder="00~23">시</p>
+	  </div>
+	  <!-- 
+	  <hr>
+	  <div>
+		<p>목차</p>
+		<h4>목차 영역</h4>
+	  </div>
+	   -->
+	  <hr>
+	  <div>
+		<h4>책 속의 한 줄 목록</h4>
+		<div align="right">
+			<button onclick="goBestWordInsertForm();" type="button" class="btn" >
+				등록
+			</button>
+		</div>
+		<br />
+		<table class="table">
+	    <tbody>
+	    	<tr><th>이름</th><th>내용</th><th>등록일</th><th>삭제</th></tr>
+		    {% for bestword in bestword_list %}
+			<tr><td>{{ bestword.user.name }}</td><td>{{ bestword.best_word }}<td>{{ bestword.reg_dt|date:'Y-m-d H:i:s' }}</td><td><button onclick="deleteBestWord('{{ bestword.best_word }}');" type="button" class="btn">삭제</button></td></tr>
+			{% endfor %}
+	    </tbody>
+	    </table>
+	    <!-- 
+		<div align="center" class="pagination">
+		<ul>
+			<li>
+				<a href="#">Prev</a>
+			</li>
+			<li>
+				<a href="#">1</a>
+			</li>
+			<li>
+				<a href="#">2</a>
+			</li>
+			<li>
+				<a href="#">3</a>
+			</li>
+			<li>
+				<a href="#">Next</a>
+			</li>
+		</ul>
+	    </div>
+	     -->
+	  </div>
+	  
+	  <hr>
+	  <div>
+		<h4>독후감 목록</h4>
+		<div align="right">
+			<button onclick="goBookReviewInsertForm();" type="button" class="btn" >
+				등록
+			</button>
+		</div>
+		<br />
+		<table class="table">
+	    <tbody>
+	    	<tr><th>제목</th><th>내용</th><th>등록일</th><th>삭제</th></tr>
+	    	{% for review in review_list %}
+			<tr><td>{{ review.review_name }}</td><td>{{ review.review_contents }}</td><td>{{ review.reg_dt|date:'Y-m-d H:i:s' }}</td><td><button onclick="deleteReview('{{ review.review_name }}');" type="button" class="btn">삭제</button></td></tr>
+			{% endfor %}
+	    </tbody>
+	    </table>
+	    <!-- 
+		<div align="center" class="pagination">
+		<ul>
+			<li>
+				<a href="#">Prev</a>
+			</li>
+			<li>
+				<a href="#">1</a>
+			</li>
+			<li>
+				<a href="#">2</a>
+			</li>
+			<li>
+				<a href="#">3</a>
+			</li>
+			<li>
+				<a href="#">Next</a>
+			</li>
+		</ul>
+	    </div>
+	     -->
+	  </div>
+	  
+	  <div class="row-fluid"></div><hr>
+    
+      <div class="container"></div><footer><p>© skytear7@naver.com 2013</p>
+        
+      </footer>
+    
+    </div> <!-- /container -->
+    
+
+    <style>
+      
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
+    </script>
+    <script src="/static/js/bootstrap.js">
+    </script>
+    <script>
+    	function updateCurrentPage() {
+    		document.bookDetailForm.action = "/book/book_current_page_update/"
+    		var currentPage = document.currentPageUpdateForm.current_page.value;
+    		if(parseInt(currentPage) <= 0) {
+    			alert("0이상의 값을 입력해 주세요.")
+    			document.currentPageUpdateForm.current_page.focus();
+    			return ;
+    		}
+    		
+    		document.bookDetailForm.current_page.value = currentPage;
+    		document.bookDetailForm.submit();
+    	}
+    
+		function goBestWordInsertForm() {
+			document.bookDetailForm.action = "/bestword/bestword_insert_form/";
+			document.bookDetailForm.submit();
+		}
+		
+		function goBookReviewInsertForm() {
+			document.bookDetailForm.action = "/review/review_insert_form/";
+			document.bookDetailForm.submit();
+		}
+		
+		function deleteBestWord(best_word) {
+			document.bookDetailForm.action = "/bestword/bestword_delete/";
+			document.bookDetailForm.best_word.value = best_word;
+			document.bookDetailForm.submit();
+		}
+		
+		function delteReview(review_name) {
+			document.bookDetailForm.action = "/review/review_delete/";
+			document.bookDetailForm.review_name.value = review_name;
+			document.bookDetailForm.submit();
+		}
+    </script>
+    <form name="bookDetailForm" action="" method="post">
+		<input type="hidden" name="isbn" value="{{ book.isbn }}" />
+		<input type="hidden" name="user" value="{{ book.user.email }}" />
+		<input type="hidden" name="book" value="{{ book.isbn }}" />
+		<input type="hidden" name="best_word" />
+		<input type="hidden" name="review_name" />
+		<input type="hidden" name="current_page" />
+	</form>
+  </body>
+</html>
